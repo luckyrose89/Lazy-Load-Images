@@ -297,36 +297,37 @@
         );
       };
 
-      window.addEventListener(
-        "scroll",
-        function() {
-          for (var i = 0; i < images.length; i++) {
-            // determine if image is not in viewport
-            if (!isInViewport(images[i])) continue;
+      var loadImages = function() {
+        for (var i = 0; i < images.length; i++) {
+          // determine if image is not in viewport
+          if (!isInViewport(images[i])) continue;
 
-            // Get the image url
-            var imageSrc = images[i].getAttribute("data-image");
-            if (!imageSrc) continue;
+          // Get the image url
+          var imageSrc = images[i].getAttribute("data-image");
+          if (!imageSrc) continue;
 
-            // Insert Image into document
-            images[i].innerHTML = '<img src="' + imageSrc + '">';
+          // Insert Image into document
+          images[i].innerHTML = '<img src="' + imageSrc + '">';
 
-            // Add Caption to images
-            var captionText = images[i].getAttribute("data-caption");
-            if (captionText) {
-              var caption = document.createElement("caption");
-              caption.textContent = captionText;
-              var img = images[i].querySelector("img");
-              img.parentNode.insertBefore(caption, img.nextSibling);
-            }
-
-            // After the image loads, remove the data attribute
-            images[i].removeAttribute("data-image");
-            console.log(images[i]);
+          // Add Caption to images
+          var captionText = images[i].getAttribute("data-caption");
+          if (captionText) {
+            var caption = document.createElement("caption");
+            caption.textContent = captionText;
+            var img = images[i].querySelector("img");
+            img.parentNode.insertBefore(caption, img.nextSibling);
           }
-        },
-        false
-      );
+
+          // After the image loads, remove the data attribute
+          images[i].removeAttribute("data-image");
+          console.log(images[i]);
+        }
+      };
+
+      // load images already in the viewport
+      loadImages();
+
+      window.addEventListener("scroll", loadImages, false);
     </script>
   </body>
 </html>
